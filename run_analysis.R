@@ -1,3 +1,5 @@
+## Part 1: extract the file
+
 library("dplyr")
 filename<-"Coursera_DS3_Final.zip"
 if (!file.exists(fileame)){
@@ -9,7 +11,7 @@ if (!file.exists("UCI HAR Dataset")) {
 }
 read.table("UCI HAR Dataset/features.txt")
 
-## Table names assignment
+## Part 2: Table names assignment
 
 features <- read.table("UCI HAR Dataset/features.txt", col.names = c("n","functions"))
 activities <- read.table("UCI HAR Dataset/activity_labels.txt", col.names = c("code", "activity"))
@@ -20,22 +22,22 @@ subject_train <- read.table("UCI HAR Dataset/train/subject_train.txt", col.names
 x_train <- read.table("UCI HAR Dataset/train/X_train.txt", col.names = features$functions)
 y_train <- read.table("UCI HAR Dataset/train/y_train.txt", col.names = "code")
 
-## Binding the dfs
+## Part 3: Binding the dfs
 
 X <- rbind(x_train, x_test)
 Y <- rbind(y_train, y_test)
 Subject <- rbind(subject_train, subject_test)
 Merged_Data <- cbind(Subject, Y, X)
 
-## Extraction of mean and sd
+## Part 4: Extraction of mean and sd
 
 TidyData <- Merged_Data %>% select(subject, code, contains("mean"), contains("std"))
 
-## Name the activities
+## Part 5: Name the activities
 
 TidyData$code <- activities[TidyData$code, 2]
 
-## Label data
+## Part 6: Label data
 
 names(TidyData)[2] = "activity"
 names(TidyData)<-gsub("Acc", "Accelerometer", names(TidyData))
@@ -51,7 +53,7 @@ names(TidyData)<-gsub("-freq()", "Frequency", names(TidyData), ignore.case = TRU
 names(TidyData)<-gsub("angle", "Angle", names(TidyData))
 names(TidyData)<-gsub("gravity", "Gravity", names(TidyData))
 
-## New dataset
+## Part 7: New dataset
 
 FinalData <- TidyData %>%
   group_by(subject, activity) %>%
