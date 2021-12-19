@@ -31,33 +31,33 @@ Merged_Data <- cbind(Subject, Y, X)
 
 ## Part 4: Extraction of mean and sd
 
-TidyData <- Merged_Data %>% select(subject, code, contains("mean"), contains("std"))
+Tidy_Data <- Merged_Data %>% select(subject, code, contains("mean"), contains("std"))
 
 ## Part 5: Name the activities
 
-TidyData$code <- activities[TidyData$code, 2]
+Tidy_Data$code <- activities[Tidy_Data$code, 2]
 
 ## Part 6: Label data
 
-names(TidyData)[2] = "activity"
-names(TidyData)<-gsub("Acc", "Accelerometer", names(TidyData))
-names(TidyData)<-gsub("Gyro", "Gyroscope", names(TidyData))
-names(TidyData)<-gsub("BodyBody", "Body", names(TidyData))
-names(TidyData)<-gsub("Mag", "Magnitude", names(TidyData))
-names(TidyData)<-gsub("^t", "Time", names(TidyData))
-names(TidyData)<-gsub("^f", "Frequency", names(TidyData))
-names(TidyData)<-gsub("tBody", "TimeBody", names(TidyData))
-names(TidyData)<-gsub("-mean()", "Mean", names(TidyData), ignore.case = TRUE)
-names(TidyData)<-gsub("-std()", "STD", names(TidyData), ignore.case = TRUE)
-names(TidyData)<-gsub("-freq()", "Frequency", names(TidyData), ignore.case = TRUE)
-names(TidyData)<-gsub("angle", "Angle", names(TidyData))
-names(TidyData)<-gsub("gravity", "Gravity", names(TidyData))
+names(Tidy_Data)[2] = "activity"
+names(Tidy_Data)<-gsub("Acc", "Accelerometer", names(Tidy_Data))
+names(Tidy_Data)<-gsub("Gyro", "Gyroscope", names(Tidy_Data))
+names(Tidy_Data)<-gsub("BodyBody", "Body", names(Tidy_Data))
+names(Tidy_Data)<-gsub("Mag", "Magnitude", names(Tidy_Data))
+names(Tidy_Data)<-gsub("^t", "Time", names(Tidy_Data))
+names(Tidy_Data)<-gsub("^f", "Frequency", names(Tidy_Data))
+names(Tidy_Data)<-gsub("tBody", "TimeBody", names(Tidy_Data))
+names(Tidy_Data)<-gsub("-mean()", "Mean", names(Tidy_Data), ignore.case = TRUE)
+names(Tidy_Data)<-gsub("-std()", "STD", names(Tidy_Data), ignore.case = TRUE)
+names(Tidy_Data)<-gsub("-freq()", "Frequency", names(Tidy_Data), ignore.case = TRUE)
+names(Tidy_Data)<-gsub("angle", "Angle", names(Tidy_Data))
+names(Tidy_Data)<-gsub("gravity", "Gravity", names(Tidy_Data))
 
 ## Part 7: New dataset
 
-FinalData <- TidyData %>%
+Final_Data <- Tidy_Data %>%
   group_by(subject, activity) %>%
   summarise_all(funs(mean))
-write.table(FinalData, "FinalData.txt", row.name=FALSE)
+write.table(Final_Data, "FinalData.txt", row.name=FALSE)
 
 str(FinalData)
